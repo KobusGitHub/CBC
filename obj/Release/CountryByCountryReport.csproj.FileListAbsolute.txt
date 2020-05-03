@@ -1,0 +1,13 @@
+C:\Git\CBC\bin\Release\CountryByCountryReport.exe.config
+C:\Git\CBC\bin\Release\CountryByCountryReport.exe
+C:\Git\CBC\bin\Release\CountryByCountryReport.pdb
+C:\Git\CBC\bin\Release\EPPlus.dll
+C:\Git\CBC\bin\Release\EPPlus.xml
+C:\Git\CBC\obj\Release\CountryByCountryReport.csprojAssemblyReference.cache
+C:\Git\CBC\obj\Release\CountryByCountryReport.Form1.resources
+C:\Git\CBC\obj\Release\CountryByCountryReport.Properties.Resources.resources
+C:\Git\CBC\obj\Release\CountryByCountryReport.csproj.GenerateResource.cache
+C:\Git\CBC\obj\Release\CountryByCountryReport.csproj.CoreCompileInputs.cache
+C:\Git\CBC\obj\Release\CountryByCountryReport.csproj.CopyComplete
+C:\Git\CBC\obj\Release\CountryByCountryReport.exe
+C:\Git\CBC\obj\Release\CountryByCountryReport.pdb

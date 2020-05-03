@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -65,6 +66,12 @@ namespace CountryByCountryReport
            
 
             MessageBox.Show("File created successfully.", "Success");
+
+            if (File.Exists(xmlFilePath))
+            {
+                Process.Start("explorer.exe", txtDestFolder.Text);
+            }
+
         }
 
         private void brnBrowseSource_Click(object sender, EventArgs e)
@@ -126,6 +133,7 @@ namespace CountryByCountryReport
             using (var package = new ExcelPackage(xlsxFile))
             {
 
+
                 gloabalDocSpec = new DocSpec_Type
                 {
                     DocTypeIndic = GetOECDDocTypeIndicEnumType(GetExcelStringValue(package, "CoverPage", "B24")), //   (S: CoverPage; Cells: B24)
@@ -140,23 +148,6 @@ namespace CountryByCountryReport
                 cbc_oecd.CbcBody = GetCbcBodies(package).ToArray();
 
             }
-
-            //var xml = "";
-            //XmlSerializer xsSubmit = new XmlSerializer(typeof(CBC_OECD));
-            //using (var sww = new StringWriter())
-            //{
-            //    using (XmlWriter writer = XmlWriter.Create(sww))
-            //    {
-            //        xsSubmit.Serialize(writer, cbc_oecd);
-            //        xml = sww.ToString(); // Your XML
-            //    }
-            //}
-
-
-            //using (StreamWriter file = new StreamWriter(xmlFilePath))
-            //{
-            //    file.Write(xml);
-            //}
 
 
             var xml = "";

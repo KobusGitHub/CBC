@@ -10,7 +10,6 @@ C:\Users\Kobus\source\repos\CountryByCountryReport\CountryByCountryReport\obj\De
 C:\Git\CBC\bin\Debug\CountryByCountryReport.exe.config
 C:\Git\CBC\bin\Debug\CountryByCountryReport.exe
 C:\Git\CBC\bin\Debug\CountryByCountryReport.pdb
-C:\Git\CBC\obj\Debug\CountryByCountryReport.csprojAssemblyReference.cache
 C:\Git\CBC\obj\Debug\CountryByCountryReport.Properties.Resources.resources
 C:\Git\CBC\obj\Debug\CountryByCountryReport.csproj.GenerateResource.cache
 C:\Git\CBC\obj\Debug\CountryByCountryReport.csproj.CoreCompileInputs.cache
