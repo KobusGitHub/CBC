@@ -23,6 +23,9 @@ namespace CountryByCountryReport
         DocSpec_Type gloabalDocSpec = null;
         FileInfo xlsxFile = null;
         string xmlFilePath = null;
+        string destLogFilePath = null;
+        bool canWriteToLogFile = true;
+
         List<ReceivingCountryClass> receivingCountryClass = new List<ReceivingCountryClass>();
         public Form1()
         {
@@ -51,6 +54,12 @@ namespace CountryByCountryReport
                 File.Delete(destFilePath);
             }
 
+            destLogFilePath = txtDestFolder.Text + "\\" + destFileName.Replace(".xml","_Log.log");
+            if (File.Exists(destLogFilePath))
+            {
+                File.Delete(destLogFilePath);
+            }
+
             xlsxFile = new FileInfo(sourceFilePath);
             xmlFilePath = destFilePath;
 
@@ -61,6 +70,13 @@ namespace CountryByCountryReport
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Failed");
+                
+                if (File.Exists(destLogFilePath))
+                {
+                    MessageBox.Show("Please check log file for more information:", "Failed");
+                    Process.Start("explorer.exe", txtDestFolder.Text);
+                }
+
                 return;
             }
            
@@ -91,6 +107,9 @@ namespace CountryByCountryReport
 
         private string GetExcelStringValue(ExcelPackage package, string workbook, string cell)
         {
+
+            logMessage(string.Format("Worksheet: '{0}', Cell '{1}', Converting to a String", workbook, cell));
+
             var cellObject = package.Workbook.Worksheets[workbook].Cells[cell].Value;
             if (cellObject == null)
             {
@@ -101,6 +120,8 @@ namespace CountryByCountryReport
 
         private int? GetExcelIntValue(ExcelPackage package, string workbook, string cell)
         {
+            logMessage(string.Format("Worksheet: '{0}', Cell '{1}', Converting to a INTEGER", workbook, cell));
+            
             var cellObject = package.Workbook.Worksheets[workbook].Cells[cell].Value;
             if (cellObject == null)
             {
@@ -111,6 +132,8 @@ namespace CountryByCountryReport
 
         private double? GetExcelDoubleValue(ExcelPackage package, string workbook, string cell)
         {
+            logMessage(string.Format("Worksheet: '{0}', Cell '{1}', Converting to a Double", workbook, cell));
+            
             var cellObject = package.Workbook.Worksheets[workbook].Cells[cell].Value;
             if (cellObject == null)
             {
@@ -634,7 +657,30 @@ namespace CountryByCountryReport
 
         }
 
-     
+        
+        private void logMessage(string message)
+        {
+            if (!canWriteToLogFile)
+            {
+                return;
+            }
+
+            try
+            {
+                using(StreamWriter w = File.AppendText(destLogFilePath))
+                {
+                    w.WriteLine(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to write to log file!", "Log File Failed");
+
+                canWriteToLogFile = false;
+                throw;
+            }
+        }
+
     }
 
     public class ReceivingCountryClass
