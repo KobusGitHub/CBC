@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -20,15 +21,66 @@ namespace CountryByCountryReport
     {
         DocSpec_Type gloabalDocSpec = null;
         FileInfo xlsxFile = null;
+        string xmlFilePath = null;
         List<ReceivingCountryClass> receivingCountryClass = new List<ReceivingCountryClass>();
         public Form1()
         {
             InitializeComponent();
 
-            xlsxFile = new FileInfo(@"C:/temp/CBC.xlsx");
-
-            this.StartWork();
         }
+
+
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            var sourceFilePath = txtSource.Text;
+            if (!File.Exists(sourceFilePath))
+            {
+                MessageBox.Show("Invalid Source File", "Alert");
+            }
+
+            var destFileName = txtDestFileName.Text;
+            if (!destFileName.Contains(".xml"))
+            {
+                destFileName = destFileName + ".xml";
+            }
+
+            var destFilePath = txtDestFolder.Text + "\\" + destFileName;
+            if (File.Exists(destFilePath))
+            {
+                File.Delete(destFilePath);
+            }
+
+            xlsxFile = new FileInfo(sourceFilePath);
+            xmlFilePath = destFilePath;
+
+            try
+            {
+                this.StartWork();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Failed");
+                return;
+            }
+           
+
+            MessageBox.Show("File created successfully.", "Success");
+        }
+
+        private void brnBrowseSource_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.DefaultExt = ".xlsx";
+            openFileDialog1.Filter = "Excel Worksheets|*.xlsx";
+            openFileDialog1.ShowDialog();
+            txtSource.Text = openFileDialog1.FileName;
+        }
+
+        private void btnBrowseDest_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.ShowDialog();
+            txtDestFolder.Text = folderBrowserDialog1.SelectedPath;
+        }
+
 
         private string GetExcelStringValue(ExcelPackage package, string workbook, string cell)
         {
@@ -89,26 +141,45 @@ namespace CountryByCountryReport
 
             }
 
+            //var xml = "";
+            //XmlSerializer xsSubmit = new XmlSerializer(typeof(CBC_OECD));
+            //using (var sww = new StringWriter())
+            //{
+            //    using (XmlWriter writer = XmlWriter.Create(sww))
+            //    {
+            //        xsSubmit.Serialize(writer, cbc_oecd);
+            //        xml = sww.ToString(); // Your XML
+            //    }
+            //}
+
+
+            //using (StreamWriter file = new StreamWriter(xmlFilePath))
+            //{
+            //    file.Write(xml);
+            //}
+
+
             var xml = "";
             XmlSerializer xsSubmit = new XmlSerializer(typeof(CBC_OECD));
             using (var sww = new StringWriter())
             {
-                using (XmlWriter writer = XmlWriter.Create(sww))
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+                settings.NewLineOnAttributes = true;
+
+
+                using (XmlWriter writer = XmlWriter.Create(sww, settings))
                 {
                     xsSubmit.Serialize(writer, cbc_oecd);
                     xml = sww.ToString(); // Your XML
                 }
             }
 
-            if (File.Exists(@"C:\Git\CBC\xml\Output\output.xml"))
-            {
-                File.Delete(@"C:\Git\CBC\xml\Output\output.xml");
-            }
 
-
-            using (StreamWriter file = new StreamWriter(@"C:\Git\CBC\xml\Output\output.xml"))
+            using (StreamWriter file = new StreamWriter(xmlFilePath))
             {
                 file.Write(xml);
+
             }
         }
 
@@ -572,7 +643,7 @@ namespace CountryByCountryReport
 
         }
 
-
+     
     }
 
     public class ReceivingCountryClass

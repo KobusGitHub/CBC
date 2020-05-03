@@ -19,3 +19,4 @@ C:\Git\CBC\obj\Debug\CountryByCountryReport.pdb
 C:\Git\CBC\bin\Debug\EPPlus.dll
 C:\Git\CBC\bin\Debug\EPPlus.xml
 C:\Git\CBC\obj\Debug\CountryByCountryReport.csproj.CopyComplete
+C:\Git\CBC\obj\Debug\CountryByCountryReport.Form1.resources
