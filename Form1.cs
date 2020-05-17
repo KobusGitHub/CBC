@@ -160,7 +160,6 @@ namespace CountryByCountryReport
                 gloabalDocSpec = new DocSpec_Type
                 {
                     DocTypeIndic = GetOECDDocTypeIndicEnumType(GetExcelStringValue(package, "CoverPage", "B24")), //   (S: CoverPage; Cells: B24)
-                    // DocRefId = package.Workbook.Worksheets["CoverPage"].Cells["B25"].Value.ToString(), // "ZA2018DOCBAW", //   (S: CoverPage; Cells: B25)
                     DocRefId = GetExcelStringValue(package, "CoverPage", "B25"), // "ZA2018DOCBAW", //   (S: CoverPage; Cells: B25)
                     CorrDocRefId = "",
                     CorrMessageRefId = ""
